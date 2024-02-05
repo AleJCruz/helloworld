@@ -13,9 +13,13 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-    - name: Set permissions
+     - name: Assign Execute Permissions to Scripts
       run: |
-        ./Permissions.sh
+        chmod +x Pre-init.sh
+        chmod +x Config.sh
+        chmod +x Pre-build.sh
+        chmod +x Docker-build-push.sh
+        chmod +x Destroy.sh
     
     - name: Setup JDK, Docker, Gradle
       run: |
