@@ -1,0 +1,44 @@
+name: Deploy to ACR
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Setup JDK, Docker, Gradle
+      run: |
+        ./Pre-init.sh
+
+    - name: Configure Azure Resources
+      run: |
+        ./Config.sh
+
+    - name: Pre-Build
+      run: |
+        ./Pre-build.sh
+
+    - name: Docker Build and Push
+      run: |
+        ./Docker-build-push.sh
+      env:
+        ACR_NAME: registerexamplecontainer
+        IMAGE_NAME: helloworldimage
+        TAG: applicationfromAle
+        ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
+        ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
+
+    - name: Clean Up Resources
+      run: |
+        ./Destroy.sh
+      env:
+        AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+        AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+        AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
