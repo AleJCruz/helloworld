@@ -3,7 +3,7 @@ echo "Part 2: Configuration"
 echo "-----------------------"
 
 RESOURCE_GROUP_NAME="c"
-ACR_NAME="Aleexample"
+ACR_NAME="aleexample1"
 LOCATION="eastus"
 
 # Autenticar con Azure
