@@ -13,7 +13,7 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-     - name: Assign Execute Permissions to Scripts
+    - name: Assign Execute Permissions to Scripts
       run: |
         chmod +x Pre-init.sh
         chmod +x Config.sh
@@ -24,15 +24,12 @@ jobs:
     - name: Setup JDK, Docker, Gradle
       run: |
         ./Pre-init.sh
-
     - name: Configure Azure Resources
       run: |
         ./Config.sh
-
     - name: Pre-Build
       run: |
         ./Pre-build.sh
-
     - name: Docker Build and Push
       run: |
         ./Docker-build-push.sh
