@@ -10,7 +10,7 @@ TAG="applicationfromAle"
 az acr login --name $ACR_NAME --username ${{ secrets.ACR_USERNAME }} --password ${{ secrets.ACR_PASSWORD }}
 
 # Build the Docker image
-docker build -t $ACR_NAME.azurecr.io/$IMAGE_NAME:$TAG /home/business.account/project/helloworld/
+docker build -t $ACR_NAME.azurecr.io/$IMAGE_NAME:$TAG .
 
 # Push the image to ACR
 docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:$TAG
