@@ -6,10 +6,13 @@ RESOURCE_GROUP_NAME="c"
 ACR_NAME="Aleexample"
 LOCATION="eastus"
 
-# Create a resource group
+# Autenticar con Azure
+az login
+
+# Crear un grupo de recursos
 az group create --name $RESOURCE_GROUP_NAME --location $LOCATION
 
-# Use GitHub Secrets for ACR authentication
+# Utilizar GitHub Secrets para la autenticación de ACR
 az acr create --resource-group $RESOURCE_GROUP_NAME --name $ACR_NAME --sku Premium --admin-enabled true --location $LOCATION \
   --subscription 625c5556-e32f-42ef-b464-e763dcf68f30 \
   --resource-group-location eastus \
