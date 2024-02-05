@@ -13,11 +13,7 @@ az login
 az group create --name $RESOURCE_GROUP_NAME --location $LOCATION
 
 # Utilizar GitHub Secrets para la autenticación de ACR
-az acr create --resource-group $RESOURCE_GROUP_NAME --name $ACR_NAME --sku Premium --admin-enabled true --location $LOCATION \
+az acr create --resource-group $RESOURCE_GROUP_NAME --name $ACR_NAME --sku Premium --admin-enabled true \
   --subscription 625c5556-e32f-42ef-b464-e763dcf68f30 \
-  --resource-group-location eastus \
-  --sku Premium \
-  --admin-enabled true \
-  --location $LOCATION \
   --query 'id' \
   --output tsv
