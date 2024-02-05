@@ -2,7 +2,7 @@
 echo "Part 4: Docker Build and Push"
 echo "-----------------------------"
 
-ACR_NAME="Aleexample"
+ACR_NAME="aleexample1"
 IMAGE_NAME="helloworldimage"
 TAG="applicationfromAle"
 
