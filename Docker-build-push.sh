@@ -7,7 +7,7 @@ IMAGE_NAME="helloworldimage"
 TAG="applicationfromAle"
 
 # Authenticate to ACR using GitHub Secret
-az acr login --name $ACR_NAME --username ${{ secrets.ACR_USERNAME }} --password ${{ secrets.ACR_PASSWORD }}
+az acr login --name $ACR_NAME --username aleexample1 --password w6Rq+4Ttb9q6jf3myGymnDYUE0A3kfUAAP3pD4/d8C+ACRCGJwnq
 
 # Build the Docker image
 docker build -t $ACR_NAME.azurecr.io/$IMAGE_NAME:$TAG .
