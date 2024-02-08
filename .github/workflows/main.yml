@@ -24,7 +24,17 @@ jobs:
     
     - name: Deploy to AKS
       run: |
-        kubectl apply -f k8s/ 
+        kubectl apply -f k8s/
 
     - name: Validate Deployment
       run: kubectl get pods
+
+    # Rollback on Failure
+    - name: Rollback on Failure
+      if: failure()
+      run: |
+        # Obtener el número de revisión anterior
+        PREVIOUS_REVISION=$(kubectl rollout history deployment/helloworld --revision=0 --output=jsonpath={.revision})
+
+        # Realizar el rollback
+        kubectl rollout undo deployment/helloworld --to-revision=${PREVIOUS_REVISION}
