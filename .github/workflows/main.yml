@@ -12,12 +12,7 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
-
-    - name: Set up Azure CLI
-      uses: azure/CLI@v1
-      with:
-        azcliversion: 2.28.0
-
+      
     - name: Log in to Azure
       run: |
         az login --service-principal --username ${{ secrets.AZURE_SP_APP_ID }} --password ${{ secrets.AZURE_SP_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
