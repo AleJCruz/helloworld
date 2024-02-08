@@ -19,8 +19,9 @@ jobs:
 
     - name: Deploy to AKS
       run: |
-        kubectl apply -f k8s/deployment.yml
-        kubectl apply -f k8s/service.yml
+       kubectl apply -f k8s/deployment.yaml --validate=false
+       kubectl apply -f k8s/service.yaml --validate=false
+
 
     - name: Validate Deployment
       run: kubectl get pods
