@@ -16,11 +16,6 @@ jobs:
     - name: Log in to Azure
       run: |
         az login --service-principal --username 8aa7433f-6015-4397-9889-1d2d794e633d --password wOi8Q~aM-tsekMej543FtVELrOxP9H26pFjWOaCL --tenant e3de6039-942b-4f3e-b8fa-8d8008f8fd74
-      
-    - name: Set up kubectl
-      uses: azure/k8s-set-context@v1
-      with:
-        kubeconfig: ${{ secrets.KUBE_CONFIG }}
 
     - name: Deploy to AKS
       run: |
