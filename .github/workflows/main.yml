@@ -13,13 +13,10 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
       
-    - name: Log in to Azure
-      run: |
-        az login --service-principal --username ${{ secrets.AZURE_SP_APP_ID }} --password ${{ secrets.AZURE_SP_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
-      env:
-        AZURE_SP_APP_ID: ${{ secrets.AZURE_SP_APP_ID }}
-        AZURE_SP_CLIENT_SECRET: ${{ secrets.AZURE_SP_CLIENT_SECRET }}
-        AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+    - name: Azure login
+      uses: azure/login@v1
+      with: 
+            creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Set up kubectl
       uses: azure/k8s-set-context@v1
