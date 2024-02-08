@@ -1,4 +1,4 @@
-name: Deploy to ACR
+name: Deploy to AKS
 
 on:
   push:
@@ -9,65 +9,32 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        resource-config: [1]
-        pre-build: [2]
-
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+    - name: Checkout Repository
+      uses: actions/checkout@v2
 
-      - name: Assign Execute Permissions to Scripts
-        run: |
-          chmod +x Pre-init.sh
-          chmod +x Config.sh
-          chmod +x Pre-build.sh
-          chmod +x Docker-build-push.sh
-          chmod +x Destroy.sh
+    - name: Set up Azure CLI
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.28.0
 
-      - name: Cache Gradle dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches
-          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+    - name: Log in to Azure
+      run: |
+        az login --service-principal --username ${{ secrets.AZURE_SP_APP_ID }} --password ${{ secrets.AZURE_SP_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+      env:
+        AZURE_SP_APP_ID: ${{ secrets.AZURE_SP_APP_ID }}
+        AZURE_SP_CLIENT_SECRET: ${{ secrets.AZURE_SP_CLIENT_SECRET }}
+        AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
 
-      - name: Cache Docker layers
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.docker
-          key: docker-${{ runner.os }}-${{ hashFiles('**/*.dockerfile', '**/Dockerfile') }}
+    - name: Set up kubectl
+      uses: azure/k8s-set-context@v1
+      with:
+        kubeconfig: ${{ secrets.KUBE_CONFIG }}
 
-      - name: Setup JDK, Docker, Gradle
-        run: |
-          ./Pre-init.sh
+    - name: Deploy to AKS
+      run: |
+        kubectl apply -f k8s/deployment.yaml
+        kubectl apply -f k8s/service.yaml
 
-      - name: Configure Azure Resources
-        run: |
-          ./Config.sh
-        if: matrix.resource-config == 1
-
-      - name: Pre-Build
-        run: |
-          ./Pre-build.sh
-        if: matrix.pre-build == 2
-
-      - name: Docker Build and Push
-        run: |
-          ./Docker-build-push.sh
-        env:
-          ACR_NAME: registerexamplecontainer
-          IMAGE_NAME: helloworldimage
-          TAG: applicationfromAle
-          ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
-          ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
-
-      - name: Clean Up Resources
-        run: |
-          ./Destroy.sh
-        env:
-          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+    - name: Validate Deployment
+      run: kubectl get pods
