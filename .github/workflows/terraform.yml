@@ -1,0 +1,57 @@
+# .github/workflows/terraform.yml
+
+name: Terraform Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy_infra:
+    name: Deploy Infrastructure
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.0.0
+      - name: Login to Azure
+        run: az login ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Terraform Init
+        run: terraform init
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+
+  manage_secrets:
+    name: Manage Secrets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.0.0
+      - name: Terraform Init
+        run: terraform init
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+
+  destroy_infra:
+    name: Destroy Infrastructure
+    runs-on: ubuntu-latest
+    needs: [deploy_infra, manage_secrets]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.0.0
+      - name: Terraform Init
+        run: terraform init
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve
