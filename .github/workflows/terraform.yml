@@ -14,12 +14,12 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
+      - name: Change to .github/workflows Directory
+        run: cd .github/workflows
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: 1.0.0
-      - name: Print Current Directory
-        run: ls -l
       - name: Terraform Init
         run: terraform init
       - name: Terraform Apply
