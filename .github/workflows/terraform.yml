@@ -23,9 +23,6 @@ jobs:
         with:
           terraform_version: 1.0.0
 
-      - name: Change to Terraform Config Directory
-        run: cd terraform
-
       - name: Terraform Init
         run: terraform init
 
@@ -38,12 +35,18 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
+
+      - name: Azure Login
+        run: az login --service-principal --username 8aa7433f-6015-4397-9889-1d2d794e633d --password wOi8Q~aM-tsekMej543FtVELrOxP9H26pFjWOaCL --tenant e3de6039-942b-4f3e-b8fa-8d8008f8fd74
+      
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: 1.0.0
+      
       - name: Terraform Init
         run: terraform init
+      
       - name: Terraform Apply
         run: terraform apply -auto-approve
 
@@ -54,11 +57,17 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
+      
+      - name: Azure Login
+        run: az login --service-principal --username 8aa7433f-6015-4397-9889-1d2d794e633d --password wOi8Q~aM-tsekMej543FtVELrOxP9H26pFjWOaCL --tenant e3de6039-942b-4f3e-b8fa-8d8008f8fd74
+      
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: 1.0.0
+      
       - name: Terraform Init
         run: terraform init
+     
       - name: Terraform Destroy
         run: terraform destroy -auto-approve
