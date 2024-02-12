@@ -1,4 +1,5 @@
 provider "azurerm" {
+  version = "=2.53.0"  # You can adjust the version based on your needs
   features = {}
   subscription_id = "8aa7433f-6015-4397-9889-1d2d794e633d"
   client_id       = "8aa7433f-6015-4397-9889-1d2d794e633d"
@@ -8,7 +9,7 @@ provider "azurerm" {
 
 resource "azurerm_resource_group" "example" {
   name     = "c"
-  location = "East US"
+  location = "eastus"
 }
 
 resource "azurerm_virtual_network" "example" {
