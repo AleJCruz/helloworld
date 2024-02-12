@@ -14,7 +14,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "example" {
-  name     = "create"
+  name     = "createexample"
   location = "East US"
 }
 
