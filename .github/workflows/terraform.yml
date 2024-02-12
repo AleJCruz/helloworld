@@ -19,7 +19,7 @@ jobs:
         with:
           terraform_version: 1.0.0
       - name: Change to Terraform Config Directory
-        run: cd terraform/main.tf
+        run: cd terraform
       - name: Terraform Init
         run: terraform init
       - name: Terraform Apply
