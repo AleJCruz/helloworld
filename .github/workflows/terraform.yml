@@ -35,7 +35,7 @@ jobs:
 
       - name: Set Outputs
         id: set_outputs
-        run: echo "::set-output name=values::${{ steps.set_plan.outputs.values }}"
+        run: echo "::set-output name=values::./tfplan"
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
@@ -60,4 +60,4 @@ jobs:
         run: terraform init
 
       - name: Terraform Destroy
-        run: terraform destroy -auto-approve -var-file=${{ needs.deploy_infra.outputs.values }}
+        run: terraform destroy -auto-approve -var-file=./tfplan
