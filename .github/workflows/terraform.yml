@@ -35,7 +35,9 @@ jobs:
 
       - name: Set Outputs
         id: set_outputs
-        run: echo "::set-output name=values::./tfplan"
+        run: |
+          echo "tfplan=./tfplan" >> $GITHUB_ENV
+          echo "::set-output name=values::./tfplan"
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
@@ -60,4 +62,4 @@ jobs:
         run: terraform init
 
       - name: Terraform Destroy
-        run: terraform destroy -auto-approve -var-file=./tfplan
+        run: terraform destroy -auto-approve -var-file=${{ env.tfplan }}
