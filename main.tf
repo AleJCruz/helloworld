@@ -1,5 +1,3 @@
-# main.tf
-
 provider "azurerm" {
   features = {}
   subscription_id = "8aa7433f-6015-4397-9889-1d2d794e633d"
