@@ -18,6 +18,8 @@ jobs:
         uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: 1.0.0
+      - name: Print Current Directory
+        run: ls -l
       - name: Terraform Init
         run: terraform init
       - name: Terraform Apply
